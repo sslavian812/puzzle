@@ -133,11 +133,12 @@ public class NumericPuzzle implements Puzzle<Integer> {
     }
 
     @Override
-    public void provideSolution(List<Element<Integer>> elements) {
+    public boolean offerSolution(List<Element<Integer>> elements) {
         if (checkSolution(elements)) {
             solution = elements;
-            isSolved = true;
+            return isSolved = true;
         }
+        return false;
     }
 
     private boolean checkSolution(List<Element<Integer>> elements) {
@@ -158,15 +159,19 @@ public class NumericPuzzle implements Puzzle<Integer> {
             int i = p.getKey(), j = p.getValue();
 
             current = elements.get(i * width + j);
-            if (j < width) {
-                if (!checkCompatible(current, Direction.RIGHT, elements.get(i * width + j + 1), Direction.LEFT))
+            if (j + 1 < width) {
+                if (!checkCompatible(current, Direction.RIGHT, elements.get(i * width + j + 1), Direction.LEFT)) {
+//                    System.out.println("incompatible: ("+ i + "," + j+ "+1) -> " + current.getValue() + " vs " +  elements.get(i * width + j + 1).getValue());
                     return false;
+                }
                 if (!checked[i][j + 1])
                     queue.add(new Pair<>(i, j + 1));
             }
-            if (i < height) {
-                if (!checkCompatible(current, Direction.DOWN, elements.get((i + 1) * width + j), Direction.UP))
+            if (i + 1 < height) {
+                if (!checkCompatible(current, Direction.DOWN, elements.get((i + 1) * width + j), Direction.UP)) {
+//                    System.out.println("incompatible: ("+ i + "+1," + j+ ") -> " + current.getValue() + " vs " +  elements.get((i+1) * width + j ).getValue());
                     return false;
+                }
                 if (!checked[i + 1][j])
                     queue.add(new Pair<>(i + 1, j));
             }

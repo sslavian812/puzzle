@@ -56,7 +56,7 @@ public interface Puzzle<T> {
      */
     List<Element<T>> getSolution();
 
-    void provideSolution(List<Element<T>> elements);
+    boolean offerSolution(List<Element<T>> elements);
 
     int getHeight();
 

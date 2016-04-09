@@ -46,7 +46,7 @@ public class RowByRowSolverImpl implements PuzzleSolver {
             }
         }
 
-        puzzle.provideSolution(solution);
+        puzzle.offerSolution(solution);
 
         return puzzle;
     }
