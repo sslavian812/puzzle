@@ -19,6 +19,7 @@ public class RowByRowSolverImpl implements PuzzleSolver {
         for (Element<T> candidate : elements) {
             List<Element<T>> compatible = new ArrayList<>(4);
 
+
             for (Element<T> other : elements) {
 
                 if (puzzle.checkSomeDirectionCompatibility(candidate, other)) {
@@ -34,24 +35,26 @@ public class RowByRowSolverImpl implements PuzzleSolver {
             }
         }
 
-
         // find the first column
         List<Element<T>> firstInEachLine = new ArrayList<>(puzzle.getHeight());
         firstInEachLine.add(lastElement);
         while (firstInEachLine.size() < puzzle.getHeight()) {
             for (Element<T> nextCandidate : elements) {
                 if (puzzle.checkCompatible(lastElement, Direction.DOWN, nextCandidate, Direction.UP)) {
-                    solution.add(nextCandidate);
+                    firstInEachLine.add(nextCandidate);
                     lastElement = nextCandidate;
                 }
             }
         }
 
+
         // find row by row
+        int currentRow = 0;
         for (Element<T> columnStarter : firstInEachLine) {
             lastElement = columnStarter;
+            ++currentRow;
             solution.add(lastElement);
-            while (solution.size() < puzzle.getWidth() * puzzle.getHeight()) {
+            while (solution.size() < puzzle.getWidth() * currentRow) {
                 for (Element<T> nextCandidate : elements) {
                     if (puzzle.checkCompatible(lastElement, Direction.RIGHT, nextCandidate, Direction.LEFT)) {
                         solution.add(nextCandidate);
@@ -61,19 +64,7 @@ public class RowByRowSolverImpl implements PuzzleSolver {
             }
         }
 
-//        // add elements one-by-one
-//        while (solution.size() < puzzle.getWidth() * puzzle.getHeight()) {
-//            for (Element<T> nextCandidate : elements) {
-//                if (checkNextCompatible(lastElement, nextCandidate, solution.size(), puzzle)) {
-//                    solution.add(nextCandidate);
-//                    lastElement = nextCandidate;
-//                }
-//            }
-//        }
-
-
         puzzle.offerSolution(solution);
-
         return puzzle;
     }
 

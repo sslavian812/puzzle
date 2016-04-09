@@ -71,7 +71,7 @@ public class NumericPuzzle implements Puzzle<Integer> {
                     case 2:
                         return first.getValue() - 1 == second.getValue() && first.getValue() == second.getValue() + 1;
                     case 3:
-                        return first.getValue() - 1 == second.getValue() + width && first.getValue() == second.getValue() + width;
+                        return first.getValue() - 1 == second.getValue() && first.getValue() == second.getValue() + width;
                 }
             case 1:
                 switch (secondDirection) {
@@ -82,7 +82,7 @@ public class NumericPuzzle implements Puzzle<Integer> {
                     case 2:
                         return first.getValue() - width == second.getValue() && first.getValue() == second.getValue() + 1;
                     case 3:
-                        return first.getValue() - width == second.getValue() + width && first.getValue() == second.getValue() + width;
+                        return first.getValue() - width == second.getValue() && first.getValue() == second.getValue() + width;
                 }
             case 2:
                 switch (secondDirection) {
@@ -93,7 +93,7 @@ public class NumericPuzzle implements Puzzle<Integer> {
                     case 2:
                         return first.getValue() + 1 == second.getValue() && first.getValue() == second.getValue() + 1;
                     case 3:
-                        return first.getValue() + 1 == second.getValue() + width && first.getValue() == second.getValue() + width;
+                        return first.getValue() + 1 == second.getValue() && first.getValue() == second.getValue() + width;
                 }
             case 3:
                 switch (secondDirection) {
@@ -104,7 +104,7 @@ public class NumericPuzzle implements Puzzle<Integer> {
                     case 2:
                         return first.getValue() + width == second.getValue() && first.getValue() == second.getValue() + 1;
                     case 3:
-                        return first.getValue() + width == second.getValue() + width && first.getValue() == second.getValue() + width;
+                        return first.getValue() + width == second.getValue() && first.getValue() == second.getValue() + width;
                 }
         }
         return false;
@@ -161,7 +161,7 @@ public class NumericPuzzle implements Puzzle<Integer> {
             current = elements.get(i * width + j);
             if (j + 1 < width) {
                 if (!checkCompatible(current, Direction.RIGHT, elements.get(i * width + j + 1), Direction.LEFT)) {
-                    System.out.println("incompatible: ("+ i + "," + j+ "+1) -> " + current.getValue() + " vs " +  elements.get(i * width + j + 1).getValue());
+//                    System.out.println("incompatible: ("+ i + "," + j+ "+1) -> " + current.getValue() + " vs " +  elements.get(i * width + j + 1).getValue());
                     return false;
                 }
                 if (!checked[i][j + 1])
@@ -169,7 +169,7 @@ public class NumericPuzzle implements Puzzle<Integer> {
             }
             if (i + 1 < height) {
                 if (!checkCompatible(current, Direction.DOWN, elements.get((i + 1) * width + j), Direction.UP)) {
-                    System.out.println("incompatible: ("+ i + "+1," + j+ ") -> " + current.getValue() + " vs " +  elements.get((i+1) * width + j ).getValue());
+//                    System.out.println("incompatible: ("+ i + "+1," + j+ ") -> " + current.getValue() + " vs " +  elements.get((i+1) * width + j ).getValue());
                     return false;
                 }
                 if (!checked[i + 1][j])

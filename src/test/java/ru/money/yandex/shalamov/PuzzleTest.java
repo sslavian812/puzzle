@@ -57,14 +57,26 @@ public class PuzzleTest {
         assertFalse(puzzle.offerSolution(wrongSolution));
     }
 
+
+    @Test
+    public void testSomeDirectionCompatibility() {
+        int h = 3, w = 3;
+        Puzzle<Integer> puzzle = new NumericPuzzle(h, w);
+
+        assertTrue(puzzle.checkSomeDirectionCompatibility(new Element<>(5), new Element<>(6)));
+        assertFalse(puzzle.checkSomeDirectionCompatibility(new Element<>(4), new Element<>(6)));
+
+        assertTrue(puzzle.checkSomeDirectionCompatibility(new Element<>(5), new Element<>(8)));
+        assertFalse(puzzle.checkSomeDirectionCompatibility(new Element<>(8), new Element<>(6)));
+    }
+
     @Test
     public void testSolver() {
         int h = 3, w = 3;
         Puzzle<Integer> puzzle = new NumericPuzzle(h, w);
 
         RowByRowSolverImpl solver = new RowByRowSolverImpl();
-        System.out.println(solver.<Integer>solvePuzzle(puzzle).isSolved());
-//        assertTrue(solver.<Integer>solvePuzzle(puzzle).isSolved());
+        assertTrue(solver.<Integer>solvePuzzle(puzzle).isSolved());
     }
 
 }
