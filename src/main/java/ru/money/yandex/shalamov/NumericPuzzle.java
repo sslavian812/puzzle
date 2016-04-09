@@ -61,46 +61,46 @@ public class NumericPuzzle implements Puzzle<Integer> {
             case 0:
                 switch (secondDirection) {
                     case 0:
-                        return first.getValue() - 1 == second.getValue() - 1;
+                        return first.getValue() - 1 == second.getValue() && first.getValue() == second.getValue() - 1;
                     case 1:
-                        return first.getValue() - 1 == second.getValue() - width;
+                        return first.getValue() - 1 == second.getValue() && first.getValue() == second.getValue() - width;
                     case 2:
-                        return first.getValue() - 1 == second.getValue() + 1;
+                        return first.getValue() - 1 == second.getValue() && first.getValue() == second.getValue() + 1;
                     case 3:
-                        return first.getValue() - 1 == second.getValue() + width;
+                        return first.getValue() - 1 == second.getValue() + width && first.getValue() == second.getValue() + width;
                 }
             case 1:
                 switch (secondDirection) {
                     case 0:
-                        return first.getValue() - width == second.getValue() - 1;
+                        return first.getValue() - width == second.getValue() && first.getValue() == second.getValue() - 1;
                     case 1:
-                        return first.getValue() - width == second.getValue() - width;
+                        return first.getValue() - width == second.getValue() && first.getValue() == second.getValue() - width;
                     case 2:
-                        return first.getValue() - width == second.getValue() + 1;
+                        return first.getValue() - width == second.getValue() && first.getValue() == second.getValue() + 1;
                     case 3:
-                        return first.getValue() - width == second.getValue() + width;
+                        return first.getValue() - width == second.getValue() + width && first.getValue() == second.getValue() + width;
                 }
             case 2:
                 switch (secondDirection) {
                     case 0:
-                        return first.getValue() + 1 == second.getValue() - 1;
+                        return first.getValue() + 1 == second.getValue() && first.getValue() == second.getValue() - 1;
                     case 1:
-                        return first.getValue() + 1 == second.getValue() - width;
+                        return first.getValue() + 1 == second.getValue() && first.getValue() == second.getValue() - width;
                     case 2:
-                        return first.getValue() + 1 == second.getValue() + 1;
+                        return first.getValue() + 1 == second.getValue() && first.getValue() == second.getValue() + 1;
                     case 3:
-                        return first.getValue() + 1 == second.getValue() + width;
+                        return first.getValue() + 1 == second.getValue() + width && first.getValue() == second.getValue() + width;
                 }
             case 3:
                 switch (secondDirection) {
                     case 0:
-                        return first.getValue() + width == second.getValue() - 1;
+                        return first.getValue() + width == second.getValue() && first.getValue() == second.getValue() - 1;
                     case 1:
-                        return first.getValue() + width == second.getValue() - width;
+                        return first.getValue() + width == second.getValue() && first.getValue() == second.getValue() - width;
                     case 2:
-                        return first.getValue() + width == second.getValue() + 1;
+                        return first.getValue() + width == second.getValue() && first.getValue() == second.getValue() + 1;
                     case 3:
-                        return first.getValue() + width == second.getValue() + width;
+                        return first.getValue() + width == second.getValue() + width && first.getValue() == second.getValue() + width;
                 }
         }
         return false;
