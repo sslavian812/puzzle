@@ -20,8 +20,8 @@ public interface Puzzle<T> {
      * @param secondDirection direction of second puzzle element
      * @return true, if this two puzzle elements are compatible on two specified sides.
      */
-    boolean checkCompatible(T first, Direction firstDirection,
-                            T second, Direction secondDirection);
+    boolean checkCompatible(Element<T> first, Direction firstDirection,
+                            Element<T> second, Direction secondDirection);
 
 
     /**
@@ -29,11 +29,20 @@ public interface Puzzle<T> {
      *
      * @return all puzzle elements.
      */
-    List<T> getElements();
+    List<Element<T>> getElements();
 
-//    boolean isSolved();
-//
-//    List<T> getSolution();
+    /**
+     * Checks, is the puzzle solved or not.
+     * @return true, if solved.
+     */
+    boolean isSolved();
+
+    /**
+     * Provides the solution of this puzzle, if solved.
+     * @return list of elements in correct order and with correct rotations,
+     * if solved. Null - otherwise.
+     */
+    List<Element<T>> getSolution();
 
     int getHeight();
 

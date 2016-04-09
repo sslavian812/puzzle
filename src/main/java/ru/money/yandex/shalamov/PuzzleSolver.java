@@ -13,5 +13,5 @@ public interface PuzzleSolver {
      * @param <T>
      * @return
      */
-    <T> List<T> solvePuzzle(Puzzle<T> puzzle);
+    <T> Puzzle<T> solvePuzzle(Puzzle<T> puzzle);
 }

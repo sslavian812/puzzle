@@ -16,7 +16,9 @@ import java.util.stream.IntStream;
  * Created by viacheslav on 09.04.2016.
  */
 public class NumericPuzzle implements Puzzle<Integer> {
-    int height, width;
+    private int height, width;
+    private List<Element<Integer>> solution = null;
+    private boolean isSolved = false;
 
     public NumericPuzzle(int height, int width) {
         this.height = height;
@@ -24,15 +26,31 @@ public class NumericPuzzle implements Puzzle<Integer> {
     }
 
     @Override
-    public boolean checkCompatible(java.lang.Integer first, Direction firstDirection, java.lang.Integer second, Direction secondDirection) {
+    public boolean checkCompatible(Element<Integer> first, Direction firstDirection,
+                                   Element<Integer> second, Direction secondDirection) {
         return true; // todo method stub here
     }
 
     @Override
-    public List<Integer> getElements() {
-        List<Integer> elements = IntStream.rangeClosed(1, height*width).boxed().collect(Collectors.toList());
+    public List<Element<Integer>> getElements() {
+        List<Element<Integer>> elements = IntStream.rangeClosed(1, height*width)
+                .boxed()
+                .map(i -> new Element<Integer>(i))
+                .collect(Collectors.toList());
         Collections.shuffle(elements);
         return elements;
+    }
+
+    @Override
+    public boolean isSolved() {
+        return false; // todo method stub here
+    }
+
+    @Override
+    public List<Element<Integer>> getSolution() {
+        if(!isSolved)
+            return null;
+        return solution;
     }
 
     public int getHeight() {
