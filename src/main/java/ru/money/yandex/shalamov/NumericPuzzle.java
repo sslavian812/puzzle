@@ -34,4 +34,12 @@ public class NumericPuzzle implements Puzzle<Integer> {
         Collections.shuffle(elements);
         return elements;
     }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
 }
