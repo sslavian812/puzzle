@@ -48,7 +48,7 @@ public class RowByRowSolverImpl implements PuzzleSolver {
         }
 
 
-        // find row by row
+        // find row by row (possible multithreading here)
         int currentRow = 0;
         for (Element<T> columnStarter : firstInEachLine) {
             lastElement = columnStarter;
