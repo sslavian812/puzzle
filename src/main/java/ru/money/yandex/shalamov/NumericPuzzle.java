@@ -1,7 +1,11 @@
 package ru.money.yandex.shalamov;
 
+import javafx.util.Pair;
+
+import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.List;
+import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -118,7 +122,7 @@ public class NumericPuzzle implements Puzzle<Integer> {
 
     @Override
     public boolean isSolved() {
-        return false; // todo method stub here
+        return isSolved;
     }
 
     @Override
@@ -137,7 +141,38 @@ public class NumericPuzzle implements Puzzle<Integer> {
     }
 
     private boolean checkSolution(List<Element<Integer>> elements) {
-        return true;   // todo method stub here.
+        // todo move to abstract puzzle
+
+        if (elements.size() != width * height)
+            return false;
+
+        Queue<Pair<Integer, Integer>> queue = new ArrayDeque<>();
+        boolean[][] checked = new boolean[height][width];
+        queue.add(new Pair<>(0, 0));
+
+        Element<Integer> current = elements.get(0);
+
+        // BFS-checking of elements compatibility
+        while (!queue.isEmpty()) {
+            Pair<Integer, Integer> p = queue.poll();
+            int i = p.getKey(), j = p.getValue();
+
+            current = elements.get(i * width + j);
+            if (j < width) {
+                if (!checkCompatible(current, Direction.RIGHT, elements.get(i * width + j + 1), Direction.LEFT))
+                    return false;
+                if (!checked[i][j + 1])
+                    queue.add(new Pair<>(i, j + 1));
+            }
+            if (i < height) {
+                if (!checkCompatible(current, Direction.DOWN, elements.get((i + 1) * width + j), Direction.UP))
+                    return false;
+                if (!checked[i + 1][j])
+                    queue.add(new Pair<>(i + 1, j));
+            }
+            checked[i][j] = true;
+        }
+        return true;
     }
 
     public int getHeight() {
