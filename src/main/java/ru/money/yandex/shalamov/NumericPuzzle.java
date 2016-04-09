@@ -1,11 +1,7 @@
 package ru.money.yandex.shalamov;
 
-import javafx.util.Pair;
-
-import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.List;
-import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -18,14 +14,21 @@ import java.util.stream.IntStream;
  * <p>
  * Created by viacheslav on 09.04.2016.
  */
-public class NumericPuzzle implements Puzzle<Integer> {
-    private int height, width;
-    private List<Element<Integer>> solution = null;
-    private boolean isSolved = false;
+public class NumericPuzzle extends AbstractPuzzle<Integer> implements Puzzle<Integer> {
+    protected List<Element<Integer>> elements;
 
     public NumericPuzzle(int height, int width) {
-        this.height = height;
-        this.width = width;
+        super(height, width);
+        elements = IntStream.rangeClosed(1, getHeight() * getWidth())
+                .boxed()
+                .map(i -> new Element<Integer>(i))
+                .collect(Collectors.toList());
+        Collections.shuffle(elements);
+    }
+
+    public NumericPuzzle(int height, int width, List<Element<Integer>> elements) {
+        super(height, width);
+        this.elements = elements;
     }
 
     @Override
@@ -34,14 +37,6 @@ public class NumericPuzzle implements Puzzle<Integer> {
         return checkCompatible(first, firstDirection.ordinal(), second, secondDirection.ordinal());
     }
 
-    @Override
-    public boolean checkSomeDirectionCompatibility(Element<Integer> first, Element<Integer> second) {
-        for (int i = 0; i < 4; ++i)
-            for (int j = 0; j < 4; ++j)
-                if (checkCompatible(first, i, second, j))
-                    return true;
-        return false;
-    }
 
     private boolean checkBounds(int value, int direction) {
         if (direction == 0 && (value - 1) % width == 0)
@@ -112,79 +107,7 @@ public class NumericPuzzle implements Puzzle<Integer> {
 
     @Override
     public List<Element<Integer>> getElements() {
-        List<Element<Integer>> elements = IntStream.rangeClosed(1, height * width)
-                .boxed()
-                .map(i -> new Element<Integer>(i))
-                .collect(Collectors.toList());
-        Collections.shuffle(elements);
         return elements;
     }
 
-    @Override
-    public boolean isSolved() {
-        return isSolved;
-    }
-
-    @Override
-    public List<Element<Integer>> getSolution() {
-        if (!isSolved)
-            return null;
-        return solution;
-    }
-
-    @Override
-    public boolean offerSolution(List<Element<Integer>> elements) {
-        if (checkSolution(elements)) {
-            solution = elements;
-            return isSolved = true;
-        }
-        return false;
-    }
-
-    private boolean checkSolution(List<Element<Integer>> elements) {
-        // todo move to abstract puzzle
-
-        if (elements.size() != width * height)
-            return false;
-
-        Queue<Pair<Integer, Integer>> queue = new ArrayDeque<>();
-        boolean[][] checked = new boolean[height][width];
-        queue.add(new Pair<>(0, 0));
-
-        Element<Integer> current = elements.get(0);
-
-        // BFS-checking of elements compatibility
-        while (!queue.isEmpty()) {
-            Pair<Integer, Integer> p = queue.poll();
-            int i = p.getKey(), j = p.getValue();
-
-            current = elements.get(i * width + j);
-            if (j + 1 < width) {
-                if (!checkCompatible(current, Direction.RIGHT, elements.get(i * width + j + 1), Direction.LEFT)) {
-//                    System.out.println("incompatible: ("+ i + "," + j+ "+1) -> " + current.getValue() + " vs " +  elements.get(i * width + j + 1).getValue());
-                    return false;
-                }
-                if (!checked[i][j + 1])
-                    queue.add(new Pair<>(i, j + 1));
-            }
-            if (i + 1 < height) {
-                if (!checkCompatible(current, Direction.DOWN, elements.get((i + 1) * width + j), Direction.UP)) {
-//                    System.out.println("incompatible: ("+ i + "+1," + j+ ") -> " + current.getValue() + " vs " +  elements.get((i+1) * width + j ).getValue());
-                    return false;
-                }
-                if (!checked[i + 1][j])
-                    queue.add(new Pair<>(i + 1, j));
-            }
-            checked[i][j] = true;
-        }
-        return true;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
 }

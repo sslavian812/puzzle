@@ -68,15 +68,6 @@ public class RowByRowSolverImpl implements PuzzleSolver {
         return puzzle;
     }
 
-    private <T> boolean checkNextCompatible(Element<T> current,
-                                            Element<T> next,
-                                            int builtSize, Puzzle<T> puzzle) {
-        if (builtSize % puzzle.getWidth() == 0) {
-            return puzzle.checkCompatible(current, Direction.DOWN, next, Direction.UP);
-        } else {
-            return puzzle.checkCompatible(current, Direction.RIGHT, next, Direction.LEFT);
-        }
-    }
 
     private <T> boolean checkIsLeftTopCornerElement(Element<T> candidate, Element<T> first, Element<T> second, Puzzle<T> puzzle) {
         return (puzzle.checkCompatible(candidate, Direction.RIGHT, first, Direction.LEFT)
@@ -84,6 +75,4 @@ public class RowByRowSolverImpl implements PuzzleSolver {
                 || (puzzle.checkCompatible(candidate, Direction.RIGHT, second, Direction.LEFT)
                 && puzzle.checkCompatible(candidate, Direction.DOWN, first, Direction.UP));
     }
-
-
 }
