@@ -1,6 +1,5 @@
 package ru.money.yandex.shalamov;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,12 +27,26 @@ public class NumericPuzzle implements Puzzle<Integer> {
     @Override
     public boolean checkCompatible(Element<Integer> first, Direction firstDirection,
                                    Element<Integer> second, Direction secondDirection) {
-        return true; // todo method stub here
+        return checkCompatible(first, firstDirection.ordinal(), second, secondDirection.ordinal());
+    }
+
+    @Override
+    public boolean checkSomeDirectionCompatibility(Element<Integer> first, Element<Integer> second) {
+        for (int i = 0; i < 4; ++i)
+            for (int j = 0; j < 4; ++j)
+                if (checkCompatible(first, i, second, j))
+                    return true;
+        return false;
+    }
+
+    private boolean checkCompatible(Element<Integer> first, int firstDirection,
+                                    Element<Integer> second, int secondDirection) {
+        return first != second; // todo method stub here
     }
 
     @Override
     public List<Element<Integer>> getElements() {
-        List<Element<Integer>> elements = IntStream.rangeClosed(1, height*width)
+        List<Element<Integer>> elements = IntStream.rangeClosed(1, height * width)
                 .boxed()
                 .map(i -> new Element<Integer>(i))
                 .collect(Collectors.toList());
@@ -48,9 +61,19 @@ public class NumericPuzzle implements Puzzle<Integer> {
 
     @Override
     public List<Element<Integer>> getSolution() {
-        if(!isSolved)
+        if (!isSolved)
             return null;
         return solution;
+    }
+
+    @Override
+    public void provideSolution(List<Element<Integer>> elements) {
+        if(checkSolution(elements))
+            solution = elements;
+    }
+
+    private boolean checkSolution(List<Element<Integer>> elements) {
+        return true;   // todo method stub here.
     }
 
     public int getHeight() {
