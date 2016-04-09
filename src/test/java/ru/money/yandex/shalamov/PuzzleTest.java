@@ -57,4 +57,14 @@ public class PuzzleTest {
         assertFalse(puzzle.offerSolution(wrongSolution));
     }
 
+    @Test
+    public void testSolver() {
+        int h = 3, w = 3;
+        Puzzle<Integer> puzzle = new NumericPuzzle(h, w);
+
+        RowByRowSolverImpl solver = new RowByRowSolverImpl();
+        System.out.println(solver.<Integer>solvePuzzle(puzzle).isSolved());
+//        assertTrue(solver.<Integer>solvePuzzle(puzzle).isSolved());
+    }
+
 }

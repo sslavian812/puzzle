@@ -34,17 +34,43 @@ public class RowByRowSolverImpl implements PuzzleSolver {
             }
         }
 
-        // add left top corner element
-        solution.add(lastElement);
 
-
-        // add elements one-by-one
-        for (Element<T> nextCandidate : elements) {
-            if (checkNextCompatible(lastElement, nextCandidate, solution.size(), puzzle)) {
-                solution.add(nextCandidate);
-                lastElement = nextCandidate;
+        // find the first column
+        List<Element<T>> firstInEachLine = new ArrayList<>(puzzle.getHeight());
+        firstInEachLine.add(lastElement);
+        while (firstInEachLine.size() < puzzle.getHeight()) {
+            for (Element<T> nextCandidate : elements) {
+                if (puzzle.checkCompatible(lastElement, Direction.DOWN, nextCandidate, Direction.UP)) {
+                    solution.add(nextCandidate);
+                    lastElement = nextCandidate;
+                }
             }
         }
+
+        // find row by row
+        for (Element<T> columnStarter : firstInEachLine) {
+            lastElement = columnStarter;
+            solution.add(lastElement);
+            while (solution.size() < puzzle.getWidth() * puzzle.getHeight()) {
+                for (Element<T> nextCandidate : elements) {
+                    if (puzzle.checkCompatible(lastElement, Direction.RIGHT, nextCandidate, Direction.LEFT)) {
+                        solution.add(nextCandidate);
+                        lastElement = nextCandidate;
+                    }
+                }
+            }
+        }
+
+//        // add elements one-by-one
+//        while (solution.size() < puzzle.getWidth() * puzzle.getHeight()) {
+//            for (Element<T> nextCandidate : elements) {
+//                if (checkNextCompatible(lastElement, nextCandidate, solution.size(), puzzle)) {
+//                    solution.add(nextCandidate);
+//                    lastElement = nextCandidate;
+//                }
+//            }
+//        }
+
 
         puzzle.offerSolution(solution);
 
