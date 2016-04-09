@@ -39,9 +39,71 @@ public class NumericPuzzle implements Puzzle<Integer> {
         return false;
     }
 
+    private boolean checkBounds(int value, int direction) {
+        if (direction == 0 && (value - 1) % width == 0)
+            return false;
+        if (direction == 1 && value - height <= 0)
+            return false;
+        if (direction == 2 && value % width == 0)
+            return false;
+        if (direction == 3 && value + height > width * height)
+            return false;
+        return true;
+    }
+
     private boolean checkCompatible(Element<Integer> first, int firstDirection,
                                     Element<Integer> second, int secondDirection) {
-        return first != second; // todo method stub here
+        if (!checkBounds(first.getValue(), firstDirection)
+                || !checkBounds(second.getValue(), secondDirection))
+            return false;
+
+        switch (firstDirection) {
+            case 0:
+                switch (secondDirection) {
+                    case 0:
+                        return first.getValue() - 1 == second.getValue() - 1;
+                    case 1:
+                        return first.getValue() - 1 == second.getValue() - width;
+                    case 2:
+                        return first.getValue() - 1 == second.getValue() + 1;
+                    case 3:
+                        return first.getValue() - 1 == second.getValue() + width;
+                }
+            case 1:
+                switch (secondDirection) {
+                    case 0:
+                        return first.getValue() - width == second.getValue() - 1;
+                    case 1:
+                        return first.getValue() - width == second.getValue() - width;
+                    case 2:
+                        return first.getValue() - width == second.getValue() + 1;
+                    case 3:
+                        return first.getValue() - width == second.getValue() + width;
+                }
+            case 2:
+                switch (secondDirection) {
+                    case 0:
+                        return first.getValue() + 1 == second.getValue() - 1;
+                    case 1:
+                        return first.getValue() + 1 == second.getValue() - width;
+                    case 2:
+                        return first.getValue() + 1 == second.getValue() + 1;
+                    case 3:
+                        return first.getValue() + 1 == second.getValue() + width;
+                }
+            case 3:
+                switch (secondDirection) {
+                    case 0:
+                        return first.getValue() + width == second.getValue() - 1;
+                    case 1:
+                        return first.getValue() + width == second.getValue() - width;
+                    case 2:
+                        return first.getValue() + width == second.getValue() + 1;
+                    case 3:
+                        return first.getValue() + width == second.getValue() + width;
+                }
+        }
+        return false;
     }
 
     @Override
@@ -68,8 +130,10 @@ public class NumericPuzzle implements Puzzle<Integer> {
 
     @Override
     public void provideSolution(List<Element<Integer>> elements) {
-        if(checkSolution(elements))
+        if (checkSolution(elements)) {
             solution = elements;
+            isSolved = true;
+        }
     }
 
     private boolean checkSolution(List<Element<Integer>> elements) {

@@ -14,4 +14,8 @@ public class Element<T> {
     public void rotateCW(int k) {
         rotation = (rotation + k) % 4;
     }
+
+    public T getValue() {
+        return value;
+    }
 }
